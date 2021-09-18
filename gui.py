@@ -270,3 +270,8 @@ class App:
             self.app.exit()
         else:
             self.app.exec_()
+
+
+if __name__ == '__main__':
+    app = App(sys.argv)
+    app.run()
