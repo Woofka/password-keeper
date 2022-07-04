@@ -1,7 +1,7 @@
 import sys
 
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import Qt, QSortFilterProxyModel
+from PyQt5.QtGui import QIcon, QStandardItemModel
 from PyQt5.QtWidgets import (QApplication, QWidget, QDesktopWidget, QLabel, QMainWindow, QPushButton, QLineEdit,
                              QDialog, QGridLayout, QSpacerItem, QTableWidget, QTableWidgetItem, QFileDialog,
                              QInputDialog, QMessageBox, QTableView)
@@ -137,6 +137,14 @@ class Gui(QMainWindow):
 
         self.statusBar()
 
+        # TODO: разобраться с фильтрами на таблице
+        # https://overcoder.net/q/1705064/%D0%BA%D0%B0%D0%BA-%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D1%82%D1%8C-%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80-%D0%B4%D0%BB%D1%8F-qtablewidget
+        # https://stackoverflow.com/questions/14068823/how-to-create-filters-for-qtableview-in-pyqt
+        # https://www.mfitzp.com/forum/t/how-to-create-a-filter-search-bar-for-a-qtablewidget/735/2
+
+        self.search_bar = QLineEdit()
+        self.search_bar.setPlaceholderText('Search')
+
         self.btn_add = QPushButton('Add')
         self.btn_add.clicked.connect(self._add)
 
@@ -163,13 +171,14 @@ class Gui(QMainWindow):
         grid = QGridLayout()
         grid.setSpacing(5)
 
-        grid.addWidget(self.btn_add, 0, 0)
-        grid.addWidget(self.btn_edit, 0, 1)
-        grid.addWidget(self.btn_remove, 0, 2)
-        grid.addItem(QSpacerItem(1, 5), 1, 0)
+        grid.addWidget(self.search_bar, 0, 0, 1, 3)
+        grid.addWidget(self.btn_add, 1, 0)
+        grid.addWidget(self.btn_edit, 1, 1)
+        grid.addWidget(self.btn_remove, 1, 2)
+        grid.addItem(QSpacerItem(1, 5), 2, 0)
 
-        grid.addWidget(self.table, 7, 0, 1, 3)
-        grid.setRowStretch(7, 1)
+        grid.addWidget(self.table, 3, 0, 1, 3)
+        grid.setRowStretch(3, 1)
 
         self.widget = QWidget(self)
         self.widget.setLayout(grid)
